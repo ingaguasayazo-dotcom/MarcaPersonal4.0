@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autoevaluación de Perfil T/V-Shaped & Marca Personal 4.0</title>
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --primary-light: #3b82f6;
+            --accent: #059669;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #0f172a;
+            --text-muted: #64748b;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 20px 10px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            border-radius: 16px;
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.05);
+            overflow: hidden;
+        }
+
+        /* Banner de Encabezado */
+        .header-banner {
+            position: relative;
+            background: linear-gradient(135deg, rgba(30,58,138,0.92) 0%, rgba(5,150,105,0.88) 100%), 
+                        url('https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1200&q=80') center/cover;
+            color: white;
+            padding: 35px 25px;
+            text-align: center;
+        }
+
+        .header-banner h1 {
+            margin: 0 0 8px 0;
+            font-size: 26px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .header-banner p {
+            margin: 0;
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .badge-privacy {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(4px);
+            padding: 5px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 15px;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .form-body {
+            padding: 25px;
+        }
+
+        /* Barra de Progreso */
+        .progress-container {
+            background-color: #e2e8f0;
+            border-radius: 8px;
+            height: 8px;
+            width: 100%;
+            margin-bottom: 25px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            background: linear-gradient(90deg, var(--primary-light), var(--accent));
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        /* Secciones y Preguntas */
+        .section-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--primary);
+            border-left: 4px solid var(--accent);
+            padding-left: 10px;
+            margin: 25px 0 15px 0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .grid-fields {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        @media (max-width: 600px) {
+            .grid-fields { grid-template-columns: 1fr; }
+        }
+
+        .field-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            font-size: 13px;
+            margin-bottom: 6px;
+            color: #334155;
+        }
+
+        input[type="text"], select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 13.5px;
+            box-sizing: border-box;
+            transition: all 0.2s;
+            background-color: #f8fafc;
+        }
+
+        input[type="text"]:focus, select:focus {
+            outline: none;
+            border-color: var(--primary-light);
+            background-color: #ffffff;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+        }
+
+        .question-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            transition: border-color 0.2s;
+        }
+
+        .question-card:hover {
+            border-color: var(--primary-light);
+        }
+
+        .btn-submit {
+            width: 100%;
+            background: linear-gradient(135deg, var(--primary) 0%, #1e40af 100%);
+            color: white;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.1s, box-shadow 0.2s;
+            margin-top: 10px;
+            box-shadow: 0 4px 12px rgba(30, 58, 138, 0.25);
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 15px rgba(30, 58, 138, 0.35);
+        }
+
+        /* Panel de Resultados */
+        .result-panel {
+            display: none;
+            margin-top: 30px;
+            padding: 25px;
+            background: #f0fdf4;
+            border: 2px solid #86efac;
+            border-radius: 12px;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .score-badge {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 18px;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .pitch-box {
+            background: #ffffff;
+            border-left: 4px solid var(--primary-light);
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+            font-size: 14px;
+            line-height: 1.6;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+        }
+
+        .btn-print {
+            background: #0f172a;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            width: 100%;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+
+        /* Ajustes de Impresión / Guardar PDF */
+        @media print {
+            body { background: white; padding: 0; }
+            .container { box-shadow: none; border: none; max-width: 100%; }
+            .btn-submit, .btn-print, .progress-container { display: none !important; }
+            .result-panel { display: block !important; border: 1px solid #000; background: white; }
+            .question-card select { border: none; background: transparent; appearance: none; font-weight: bold; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header-banner">
+        <h1>Autoevaluación T/V-Shaped & Marca 4.0</h1>
+        <p>Diagnóstico de habilidades técnicas, factor humano y empleabilidad para Ingenieros</p>
+        <div class="badge-privacy">
+            🔒 Evaluación 100% Privada y Ejecutada en tu Dispositivo
+        </div>
+    </div>
+
+    <div class="form-body">
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+        <form id="evalForm">
+            <div class="section-title">1. Datos Generales & Experiencia Aplicada</div>
+            <div class="grid-fields">
+                <div class="field-group">
+                    <label for="nombre">Nombre Completo del Estudiante:</label>
+                    <input type="text" id="nombre" placeholder="Ej. Camilo Rodríguez" required>
+                </div>
+                <div class="field-group">
+                    <label for="carrera">Programa de Ingeniería:</label>
+                    <select id="carrera" required>
+                        <option value="Ingeniería Industrial">Ingeniería Industrial</option>
+                        <option value="Ingeniería Agroindustrial">Ingeniería Agroindustrial</option>
+                        <option value="Otra Ingeniería">Otra Ingeniería / Área afín</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="grid-fields">
+                <div class="field-group">
+                    <label for="ancla">Tu Pico Técnico / Área de interés:</label>
+                    <input type="text" id="ancla" placeholder="Ej. Analítica de Datos, Lean, HACCP, Marketing" required>
+                </div>
+                <div class="field-group">
+                    <label for="habTransversal">Tu principal Habilidad Blanda:</label>
+                    <input type="text" id="habTransversal" placeholder="Ej. Liderazgo, Comunicación, Trabajo bajo presión" required>
+                </div>
+            </div>
+
+            <!-- Campo editable de proyecto o semillero -->
+            <div class="field-group">
+                <label for="proyecto">Proyecto de Aula, Semillero de Investigación o Trabajo de Grado:</label>
+                <input type="text" id="proyecto" placeholder="Ej. Diagnóstico logístico en microempresa / Semillero de Inocuidad y Agrologística / Optimización de inventarios" required>
+            </div>
+
+            <div class="section-title">2. Matriz Diagnóstica (7 Dimensiones)</div>
+
+            <!-- Dimensión 1 -->
+            <div class="question-card">
+                <label>1. Barra Horizontal: Habilidades Transversales & Factor Humano</label>
+                <select class="calc-field" id="dim1" required onchange="updateProgress()">
+                    <option value="">-- Selecciona tu nivel --</option>
+                    <option value="1">Nivel 1: Me enfoco solo en tareas individuales. Me cuesta comunicar ideas a otras áreas.</option>
+                    <option value="2">Nivel 2: Colaboro si me asignan rol estricto. Transmito datos pero me cuesta negociar.</option>
+                    <option value="3">Nivel 3: Comunicación asertiva. Resuelvo problemas estructurados y me adapto en planta/campo.</option>
+                    <option value="4">Nivel 4: Lidero iniciativas colaborativas. Traduzco conceptos técnicos a impacto de negocio.</option>
+                </select>
+            </div>
+
+            <!-- Dimensión 2 -->
+            <div class="question-card">
+                <label>2. Barra Vertical: Profundidad Técnica & Pico de Especialidad</label>
+                <select class="calc-field" id="dim2" required onchange="updateProgress()">
+                    <option value="">-- Selecciona tu nivel --</option>
+                    <option value="1">Nivel 1: Conocimiento general sin dominio de herramientas o métodos específicos.</option>
+                    <option value="2">Nivel 2: Interés en un área (calidad, procesos, datos, inocuidad) solo con teoría básica.</option>
+                    <option value="3">Nivel 3: Domino una herramienta/método (Power BI, Lean, HACCP, Python, simulación).</option>
+                    <option value="4">Nivel 4: Especialidad sólida demostrada en proyectos reales, semilleros o tesis.</option>
+                </select>
+            </div>
+
+            <!-- Dimensión 3 -->
+            <div class="question-card">
+                <label>3. Integración V-Shaped: Finanzas, Costos & Visión de Negocio</label>
+                <select class="calc-field" id="dim3" required onchange="updateProgress()">
+                    <option value="">-- Selecciona tu nivel --</option>
+                    <option value="1">Nivel 1: Me desentiendo de los costos, finanzas o rentabilidad ajenos a mi tarea.</option>
+                    <option value="2">Nivel 2: Sé que existen presupuestos pero desconozco cómo mi trabajo impacta el indicador financiero.</option>
+                    <option value="3">Nivel 3: Comprendo fundamentos de costos operativos y justifico técnicamente las mejoras.</option>
+                    <option value="4">Nivel 4: Cuantifico el retorno de inversión (ROI) y mermas económicas de cada decisión técnica.</option>
+                </select>
+            </div>
+
+            <!-- Dimensión 4 -->
+            <div class="question-card">
+                <label>4. Operaciones, Inocuidad & Sostenibilidad (Manufactura / Agroindustria)</label>
+                <select class="calc-field" id="dim4" required onchange="updateProgress()">
+                    <option value="">-- Selecciona tu nivel --</option>
+                    <option value="1">Nivel 1: Ignoro las normativas sanitarias, ambientales o de seguridad en la operación.</option>
+                    <option value="2">Nivel 2: Conozco conceptos de calidad/normas (ISO, BPM) pero no los he aplicado en campo.</option>
+                    <option value="3">Nivel 3: Aplico criterios de inocuidad, trazabilidad, seguridad o gestión de mermas en proyectos.</option>
+                    <option value="4">Nivel 4: Diseño protocolos operativos sostenibles, economía circular o aseguramiento de calidad.</option>
+                </select>
+            </div>
+
+            <!-- Dimensión 5 -->
+            <div class="question-card">
+                <label>5. Analítica & Herramientas Computacionales 4.0</label>
+                <select class="calc-field" id="dim5" required onchange="updateProgress()">
+                    <option value="">-- Selecciona tu nivel --</option>
+                    <option value="1">Nivel 1: Solo manejo herramientas de oficina básicas (Word/Excel elemental).</option>
+                    <option value="2">Nivel 2: Utilizo Excel intermedio pero me cuesta automatizar o analizar grandes volúmenes de datos.</option>
+                    <option value="3">Nivel 3: Desarrollo tableros en Power BI, scripts básicos o modelado en software técnico.</option>
+                    <option value="4">Nivel 4: Integro analítica predictiva, SQL/Python, IoT o sensórica para optimización de procesos.</option>
+                </select>
+            </div>
+
+            <!-- Dimensión 6 -->
+            <div class="question-card">
+                <label>6. Marca Personal, LinkedIn & Estrategia de Discurso</label>
+                <select class="calc-field" id="dim6" required onchange="updateProgress()">
+                    <option value="">-- Selecciona tu nivel --</option>
+                    <option value="1">Nivel 1: No tengo LinkedIn o está inactivo. No sé cómo venderme en una entrevista.</option>
+                    <option value="2">Nivel 2: Tengo LinkedIn como CV estático. En entrevistas solo respondo lo que me preguntan.</option>
+                    <option value="3">Nivel 3: Perfil actualizado, conecto con profesionales y tengo estructurado un pitch de 60s.</option>
+                    <option value="4">Nivel 4: Publico aprendizajes de proyectos, interactúo en redes y tengo marca profesional activa.</option>
+                </select>
+            </div>
+
+            <!-- Dimensión 7 -->
+            <div class="question-card">
+                <label>7. Aprendizaje Continuo (Upskilling) & Adaptabilidad Digital</label>
+                <select class="calc-field" id="dim7" required onchange="updateProgress()">
+                    <option value="">-- Selecciona tu nivel --</option>
+                    <option value="1">Nivel 1: Solo estudio para aprobar exámenes. Desconozco las tendencias de la Industria 4.0.</option>
+                    <option value="2">Nivel 2: Conozco la existencia de IA e IoT pero no he dedicado tiempo autónomo a aprender.</option>
+                    <option value="3">Nivel 3: Realizo cursos virtuales por iniciativa propia en software, datos o herramientas 4.0.</option>
+                    <option value="4">Nivel 4: Practico el aprendizaje por demanda constante e investigo aplicaciones de IA en mi área.</option>
+                </select>
+            </div>
+
+            <button type="button" class="btn-submit" onclick="generarReporte()">Generar Diagnóstico Privado</button>
+        </form>
+
+        <!-- Panel de Resultado Diagnóstico -->
+        <div id="resultPanel" class="result-panel">
+            <div style="text-align: center;">
+                <div class="score-badge" id="scoreDisplay">0 / 28 pts</div>
+                <h2 id="perfilTitulo" style="margin: 5px 0; color: var(--primary);"></h2>
+                <p id="perfilDesc" style="color: #475569; font-size: 14px;"></p>
+            </div>
+
+            <div class="section-title">Tu Pitch de Entrevista Recomendado (60s)</div>
+            <div class="pitch-box" id="pitchOutput"></div>
+
+            <button type="button" class="btn-print" onclick="window.print()">💾 Guardar / Imprimir Hoja de Ruta en PDF</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Actualizar barra de progreso
+    function updateProgress() {
+        const fields = document.querySelectorAll('.calc-field');
+        let filled = 0;
+        fields.forEach(f => { if(f.value !== "") filled++; });
+        const pct = (filled / fields.length) * 100;
+        document.getElementById('progressBar').style.width = pct + '%';
+    }
+
+    // Lógica de cálculo y generación del Pitch
+    function generarReporte() {
+        const nombre = document.getElementById('nombre').value || 'Estudiante';
+        const carrera = document.getElementById('carrera').value;
+        const ancla = document.getElementById('ancla').value || 'mi especialidad técnica';
+        const hab = document.getElementById('habTransversal').value || 'resolución de problemas';
+        const proyecto = document.getElementById('proyecto').value || 'mi proyecto académico/semillero';
+
+        let total = 0;
+        for(let i=1; i<=7; i++) {
+            const val = parseInt(document.getElementById('dim' + i).value) || 0;
+            total += val;
+        }
+
+        if(total === 0) {
+            alert('Por favor responde las preguntas de la matriz diagnóstica.');
+            return;
+        }
+
+        let titulo = '';
+        let desc = '';
+
+        if(total <= 12) {
+            titulo = 'Perfil I-Shaped en Desarrollo';
+            desc = 'Cuentas con bases iniciales. Tu prioridad actual debe ser estructurar tu "pico" de especialidad técnica a través de un proyecto de aula o semillero, y fortalecer tu comunicación asertiva.';
+        } else if(total <= 21) {
+            titulo = 'Perfil T-Shaped Emergente';
+            desc = '¡Buen nivel competitivo! Tienes claridad técnica y habilidades transversales. Te recomendamos comunicar activamente tus logros en LinkedIn y conectar tu técnica con costos del negocio.';
+        } else {
+            titulo = 'Perfil T/V-Shaped de Alto Impacto 4.0';
+            desc = 'Perfil altamente destacado. Demuestras capacidad para traducir la técnica en resultados reales de negocio, integrando datos, factor humano e innovación.';
+        }
+
+        document.getElementById('scoreDisplay').innerText = total + ' / 28 pts';
+        document.getElementById('perfilTitulo').innerText = titulo;
+        document.getElementById('perfilDesc').innerText = desc;
+
+        // Estructura del Pitch integrando el proyecto/semillero
+        const pitch = `«Soy estudiante de <b>${carrera}</b> con una sólida formación en <b>${hab}</b>, lo que me permite integrarme con agilidad en equipos multidisciplinarios. A lo largo de mi carrera he construido un perfil enfocado en <b>${ancla}</b>, el cual he aplicado activamente en <b>${proyecto}</b> para optimizar procesos y tomar decisiones basadas en datos. Mi objetivo es aportar esta combinación de rigor técnico, experiencia en proyectos y factor humano para generar valor medible en la organización.»`;
+
+        document.getElementById('pitchOutput').innerHTML = pitch;
+        document.getElementById('resultPanel').style.display = 'block';
+        document.getElementById('resultPanel').scrollIntoView({ behavior: 'smooth' });
+    }
+</script>
+
+</body>
+</html>
